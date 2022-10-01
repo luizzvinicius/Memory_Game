@@ -1,22 +1,25 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
-export default function Carta({ id, color, carta, pressionada, setPressionada, desabilitada, clicadas, reset }) {
+export default function Carta({ id, color, carta, pressionada, setPressionada, desabilitada, clicadas, status }) {
 
-    const verificaId = (id, pressionada) => {
-        if(id == pressionada) return { background: color }
-        else if(id != pressionada && !desabilitada) return { background: '#6C809A' }
-        else return { background: color }
+    const verificaStatus = () => {
+        switch(status) {
+            case 0: return { background: '#6C809A' }
+            case 1: return { background: color }
+            case 2: return { background: color, opacity: 0.5 }
+        }
     }
+  
 
     return (
-        <TouchableOpacity disabled={desabilitada}
+        <TouchableOpacity disabled={status == 2 ? true : false}
             style={[
                 styles.carta_container,
-                verificaId(id, pressionada),
-                desabilitada == true ? { opacity: 0.5 } : ''
+                verificaStatus(),
+                
             ]}
 
-            onPress={() => { setPressionada(id), clicadas.push(carta) }}>
+            onPress={() => {carta.status = 1 ,setPressionada(id), clicadas.push(carta) }}>
         </TouchableOpacity>
     )
 }

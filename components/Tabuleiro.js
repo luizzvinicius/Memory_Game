@@ -4,14 +4,14 @@ import Carta from './Carta'
 
 export default function Tabuleiro() {
     const [cartas, setCartas] = useState([
-        { id: 1, color: '#FFF7AE', desabilitada: false, reset: false },
-        { id: 2, color: '#FFF7AE', desabilitada: false, reset: false },
-        { id: 3, color: '#8B5FBF', desabilitada: false, reset: false },
-        { id: 4, color: '#8B5FBF', desabilitada: false, reset: false },
-        { id: 5, color: '#E3879E', desabilitada: false, reset: false },
-        { id: 6, color: '#E3879E', desabilitada: false, reset: false },
-        { id: 7, color: '#FEC0CE', desabilitada: false, reset: false },
-        { id: 8, color: '#FEC0CE', desabilitada: false, reset: false }
+        { id: 1, color: '#FFF7AE', status: 0 },
+        { id: 2, color: '#FFF7AE', status: 0 },
+        { id: 3, color: '#8B5FBF', status: 0 },
+        { id: 4, color: '#8B5FBF', status: 0 },
+        { id: 5, color: '#E3879E', status: 0 },
+        { id: 6, color: '#E3879E', status: 0 },
+        { id: 7, color: '#FEC0CE', status: 0 },
+        { id: 8, color: '#FEC0CE', status: 0 }
     ])
 
     const [pressionada, setPressionada] = useState(0)
@@ -20,16 +20,28 @@ export default function Tabuleiro() {
 
     const compara = (clicadas) => {
         if (clicadas.length == 2) {
-            if (clicadas[0].color == clicadas[1].color) {
-                const copiaCartas = [...cartas]
+            const copiaCartas = [...cartas]
 
-                copiaCartas.forEach(carta => {  
-                    carta.color == clicadas[0].color ? carta.desabilitada = true : carta.reset = true
-                })
-                
+
+            setTimeout(() => {
+
+
+                if (clicadas[0].color == clicadas[1].color) {
+
+                    copiaCartas.forEach(carta => {
+                        carta.color == clicadas[0].color ? carta.status = 2 : ''
+                    })
+
+                } else {
+                    clicadas.forEach((carta) => {
+                        carta.status = 0
+                    })
+                }
+
                 setCartas(copiaCartas)
-            }
+            }, 450);
 
+            
             setClicadas([])
         }
         console.table(clicadas)
@@ -39,7 +51,7 @@ export default function Tabuleiro() {
         <View style={styles.tabuleiro_container}>
             {
                 cartas.map(carta =>
-                    <Carta key={carta.id} carta={carta} id={carta.id} color={carta.color} pressionada={pressionada} setPressionada={setPressionada} clicadas={clicadas} desabilitada={carta.desabilitada} />
+                    <Carta key={carta.id} carta={carta} id={carta.id} color={carta.color} pressionada={pressionada} setPressionada={setPressionada} clicadas={clicadas} status={carta.status} />
                 )
             }
 
