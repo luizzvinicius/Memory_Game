@@ -1,15 +1,16 @@
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Image } from 'react-native'
 import { useState } from 'react'
 import Carta from './Carta'
 import ButtonCustom from './ButtonCustom'
+import defaultImage from '../public/image/ball.png'
 
 export default function Tabuleiro() {
 
     const cards = [
-        { color: '#FFF7AE', status: 0 },
-        { color: '#8B5FBF', status: 0 },
-        { color: '#E3879E', status: 0 },
-        { color: '#FEC0CE', status: 0 },
+        { image: '/static/media/hinata.e701c252.png', status: 0, bgDefault: defaultImage },
+        { image: '/static/media/tanaka.79061ab1.png', status: 0, bgDefault: defaultImage },
+        { image: '/static/media/kenma.27e85a21.png', status: 0, bgDefault: defaultImage },
+        { image: '/static/media/noya.17599728.png', status: 0, bgDefault: defaultImage},
     ]
 
     const [cartas, setCartas] = useState([])
@@ -25,10 +26,10 @@ export default function Tabuleiro() {
             setTimeout(() => {
 
 
-                if (clicadas[0].color == clicadas[1].color) {
+                if (clicadas[0].image == clicadas[1].image) {
 
                     copiaCartas.forEach(carta => {
-                        carta.color == clicadas[0].color ? carta.status = 2 : ''
+                        carta.image == clicadas[0].image ? carta.status = 2 : ''
                     })
 
                     setScore((prev) => prev + 1)
@@ -44,7 +45,7 @@ export default function Tabuleiro() {
             
             setClicadas([])
         }
-        console.table(clicadas)
+        
     }
 
     const embaralharCartas = () => {
@@ -66,11 +67,10 @@ export default function Tabuleiro() {
             <View style={styles.container_cartas}>
                 {
                     cartas.map(carta =>
-                        <Carta key={carta.id} carta={carta} pressionada={pressionada} setPressionada={setPressionada} clicadas={clicadas} status={carta.status} />
+                        <Carta key={carta.id} carta={carta} pressionada={pressionada} setPressionada={setPressionada} clicadas={clicadas} status={carta.status} bgDefault={carta.bgDefault} />
                     )
                 }
             </View>
-            
 
             <View>
                 <ButtonCustom embaralharCartas={embaralharCartas}/>
@@ -103,5 +103,11 @@ const styles = StyleSheet.create({
         color: '#ffff',
         fontWeight: 'bold',
         fontSize: 20
+    },
+    icon: {
+        width: 50,
+        height: 50,
+        borderWidth: 1,
+        borderColor: '#000'
     }
 })
